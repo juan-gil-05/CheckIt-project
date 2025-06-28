@@ -11,5 +11,8 @@
             "name": "juan-gil-05",
             "email": "gilj06@hotmail.com"
         }
-    ]
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
 }

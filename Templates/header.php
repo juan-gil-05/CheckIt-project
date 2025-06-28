@@ -20,15 +20,13 @@
             </div>
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+                <li><a href="?controller=page&action=home" class="nav-link px-2 link-secondary">Home</a></li>
                 <li><a href="mes-listes.php" class="nav-link px-2">Mes listes</a></li>
-                <li><a href="#" class="nav-link px-2">FAQs</a></li>
-                <li><a href="#" class="nav-link px-2">About</a></li>
             </ul>
 
             <div class="col-md-3 text-end">
                 <a href="logout.php" class="btn btn-outline-primary me-2">Déconnexion</a>
-                <a href="login.php" class="btn btn-outline-primary me-2">Login</a>
+                <a href="?controller=user&action=singUp" class="btn btn-outline-primary me-2">Login</a>
             </div>
         </header>
     </div>

@@ -2,9 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
 use Exception;
 
-class PageController extends Controller
+class UserController extends Controller
 {
     public function route(): void
     {
@@ -13,9 +14,9 @@ class PageController extends Controller
 
             if (isset($urlAction)) {
                 switch ($urlAction) {
-                    // ?controller=page&action=home
-                    case 'home':
-                        $this->home();
+                    // ?controller=User&action=singUp
+                    case 'singUp':
+                        $this->singUp();
                         break;
                     default:
                         throw new Exception("Le controleur n'existe pas: " . $_GET['action']);
@@ -32,10 +33,15 @@ class PageController extends Controller
 
     /*
     Exemple d'appel depuis l'url
-        ?controller=page&action=home
+        ?controller=user&action=singUp
     */
-    protected function home(): void
+    protected function singUp(): void
     {
-        $this->render("Pages/home");
+        $repo = new UserRepository;
+
+        $result = $repo->callDb();
+        // var_dump($result);
+
+        $this->render("User/sing-up");
     }
 }

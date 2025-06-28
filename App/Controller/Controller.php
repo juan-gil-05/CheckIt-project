@@ -18,6 +18,11 @@ class Controller
                         $pageController = new PageController();
                         $pageController->route();
                         break;
+                    // ?controller=user
+                    case 'user':
+                        $pageController = new UserController();
+                        $pageController->route();
+                        break;
                     default:
                         throw new Exception("Le controleur n'existe pas: ".$_GET['controller']);
                         break;
