@@ -14,9 +14,9 @@ class UserController extends Controller
 
             if (isset($urlAction)) {
                 switch ($urlAction) {
-                    // ?controller=User&action=singUp
-                    case 'singUp':
-                        $this->singUp();
+                    // ?controller=User&action=signUp
+                    case 'signUp':
+                        $this->signUp();
                         break;
                     default:
                         throw new Exception("Le controleur n'existe pas: " . $_GET['action']);
@@ -26,22 +26,22 @@ class UserController extends Controller
                 throw new Exception("Aucune action détectée");
             }
         } catch (Exception $e) {
-            $this->render("Errors/error", ["error" => $e->getMessage()]);
+            $this->render("Errors/error", ["errorMsg" => $e->getMessage()]);
         }
     }
 
 
     /*
     Exemple d'appel depuis l'url
-        ?controller=user&action=singUp
+        ?controller=user&action=signUp
     */
-    protected function singUp(): void
+    protected function signUp(): void
     {
         $repo = new UserRepository;
 
-        $result = $repo->callDb();
+        // $result = $repo->callDb();
         // var_dump($result);
 
-        $this->render("User/sing-up");
+        $this->render("User/sign-up");
     }
 }

@@ -7,7 +7,8 @@
     <title>CheckIt</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="/Styles/override-bootstrap.css">
+    <link rel="stylesheet" href="/Styles/sb-admin-2.min.css">
+    <link rel="stylesheet" href="/Styles/personalized.css">
 </head>
 
 <body>
@@ -26,7 +27,7 @@
 
             <div class="col-md-3 text-end">
                 <a href="logout.php" class="btn btn-outline-primary me-2">Déconnexion</a>
-                <a href="?controller=user&action=singUp" class="btn btn-outline-primary me-2">Login</a>
+                <a href="?controller=user&action=signUp" class="btn btn-outline-primary me-2">Login</a>
             </div>
         </header>
     </div>

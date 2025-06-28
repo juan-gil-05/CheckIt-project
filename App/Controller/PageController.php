@@ -25,7 +25,7 @@ class PageController extends Controller
                 throw new Exception("Aucune action détectée");
             }
         } catch (Exception $e) {
-            $this->render("Errors/error", ["error" => $e->getMessage()]);
+            $this->render("Errors/error", ["errorMsg" => $e->getMessage()]);
         }
     }
 

@@ -32,7 +32,7 @@ class Controller
                 $pageController->home();
             }
         } catch (Exception $e) {
-            $this->render("Errors/error", ["error" => $e->getMessage()]);
+            $this->render("Errors/error", ["errorMsg" => $e->getMessage()]);
         }
     }
 
@@ -48,7 +48,7 @@ class Controller
             require_once $filePath;
 
         } catch (Exception $e) {
-            $this->render("Errors/error", ["error" => $e->getMessage()]);
+            $this->render("Errors/error", ["errorMsg" => $e->getMessage()]);
         }
     }
 }
