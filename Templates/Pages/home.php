@@ -1,6 +1,8 @@
 <div class="d-flex-column-wrapper">
     <?php
     require_once BASE_PATH . "/Templates/header.php";
+    $nickname = $_SESSION['user']['nickname'] ?? null;
+    echo ($nickname) ? "Bienvenue $nickname" : "";
     ?>
 
     <main>

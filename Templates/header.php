@@ -1,3 +1,9 @@
+<?php
+
+use App\Security\Security;
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -25,9 +31,13 @@
                 <li><a href="mes-listes.php" class="nav-link px-2">Mes listes</a></li>
             </ul>
 
-            <div class="col-md-3 text-end">
-                <a href="logout.php" class="btn btn-outline-primary me-2">Déconnexion</a>
-                <a href="?controller=user&action=signUp" class="btn btn-outline-primary me-2">Login</a>
+            <div class="col-md-5 text-end">
+                <?php if (Security::isLogged()) { ?>
+                    <a href="?controller=user&action=logOut" class="btn btn-outline-primary me-2">Se déconnecter</a>
+                <?php } else { ?>
+                    <a href="?controller=user&action=logIn" class="btn btn-outline-primary me-2">Se connecter</a>
+                    <a href="?controller=user&action=signUp" class="btn btn-outline-primary me-2">Se registrer</a>
+                <?php } ?>
             </div>
         </header>
     </div>

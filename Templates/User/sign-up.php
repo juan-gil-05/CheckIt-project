@@ -1,7 +1,5 @@
 <div class="d-flex-column-wrapper">
-    <?php
-    require_once BASE_PATH . "/Templates/header.php";
-    ?>
+    <?php require_once BASE_PATH . "/Templates/header.php"; ?>
 
     <main class="container">
 
@@ -9,7 +7,7 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-5 d-flex align-items-center">
+                    <div class="col-lg-5 d-flex align-items-center ps-5">
                         <img src="/Assets/logo-checkit.png" class="d-block mx-lg-auto img-fluid" alt="Logo CheckIt" width="500" loading="lazy">
                     </div>
                     <div class="col-lg-7">
@@ -58,7 +56,7 @@
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="login.html">Vous avez déjà un compte? Se connecter!</a>
+                                <a class="small" href="?controller=user&action=logIn">Vous avez déjà un compte? Se connecter!</a>
                             </div>
                         </div>
                     </div>

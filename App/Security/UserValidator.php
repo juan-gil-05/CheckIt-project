@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tools;
+namespace App\Security;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
@@ -49,23 +49,23 @@ class UserValidator
     }
 
     // Fonction pour valider le formulaire de connexion
-    public function logInValidate(string $userMail): array
+    public function logInValidate(string $email): array
     {
         // Tableau d'erreurs 
         $errors = [];
 
         // Si le champ du mail est vide
-        if (empty($userMail)) {
-            $errors['mail'] = "Vous devez mettre une adresse e-mail";
+        if (empty($email)) {
+            $errors['emailEmpty'] = "Vous devez mettre une adresse e-mail";
         }
 
         return $errors;
     }
 
     // Fonction pour vérifier le mot de passe passé dans le formulaire et le mot de passe hashé dans la bdd
-    public function passwordVerify(User $user)
+    public function passwordVerify(string $password,User $user)
     {
-        if ($user && password_verify($_POST['password'], $user->getPassword())) {
+        if ($user && password_verify($password, $user->getPassword())) {
             return true;
         } else {
             return false;
