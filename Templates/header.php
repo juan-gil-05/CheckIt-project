@@ -14,6 +14,7 @@ use App\Security\Security;
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/Styles/sb-admin-2.min.css">
+    <!-- <link rel="stylesheet" href="/Styles/override-bootstrap.css"> -->
     <link rel="stylesheet" href="/Styles/personalized.css">
 </head>
 
@@ -28,15 +29,15 @@ use App\Security\Security;
 
             <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="?controller=page&action=home" class="nav-link px-2 link-secondary">Home</a></li>
-                <li><a href="mes-listes.php" class="nav-link px-2">Mes listes</a></li>
+                <li><a href="?controller=list&action=showLists" class="nav-link px-2">Mes listes</a></li>
             </ul>
 
             <div class="col-md-5 text-end">
                 <?php if (Security::isLogged()) { ?>
-                    <a href="?controller=user&action=logOut" class="btn btn-outline-primary me-2">Se déconnecter</a>
+                    <a href="?controller=user&action=logOut" class="btn btn-outline-primary me-2">Déconnexion</a>
                 <?php } else { ?>
-                    <a href="?controller=user&action=logIn" class="btn btn-outline-primary me-2">Se connecter</a>
-                    <a href="?controller=user&action=signUp" class="btn btn-outline-primary me-2">Se registrer</a>
+                    <a href="?controller=user&action=logIn" class="btn btn-outline-primary me-2">Connexion</a>
+                    <a href="?controller=user&action=signUp" class="btn btn-outline-primary me-2">Insciption</a>
                 <?php } ?>
             </div>
         </header>

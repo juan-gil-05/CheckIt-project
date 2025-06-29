@@ -14,6 +14,7 @@ DROP TABLE IF EXISTS Category;
 CREATE TABLE IF NOT EXISTS Category(
 	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
+    icon VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -56,6 +57,20 @@ CREATE TABLE IF NOT EXISTS Item_Tag(
 );
 
 SHOW TABLES;
+
+SELECT * FROM User;
+
+ALTER TABLE Category ADD COLUMN icon VARCHAR(100) NOT NULL;
+
+INSERT INTO Category (name, icon) VALUES
+('Voyage', 'bi-suitcase-lg-fill'),
+('Travail', 'bi-person-workspace');
+
+SELECT * FROM Category;
+
+
+
+
 
 
 

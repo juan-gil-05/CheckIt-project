@@ -16,7 +16,7 @@ class UserController extends Controller
 
             if (isset($urlAction)) {
                 switch ($urlAction) {
-                    // ?controller=User&action=signUp
+                    // ?controller=user&action=signUp
                     case 'signUp':
                         $this->signUp();
                         break;

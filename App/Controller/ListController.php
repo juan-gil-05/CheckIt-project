@@ -1,0 +1,183 @@
+<?php
+
+namespace App\Controller;
+
+use App\Repository\CategoryRepository;
+use App\Repository\ListRepository;
+use App\Security\Security;
+use Exception;
+
+class ListController extends Controller
+{
+
+    public function route(): void
+    {
+        $urlAction = $_GET['action'] ?? null;
+        try {
+
+            if (isset($urlAction)) {
+                switch ($urlAction) {
+                    case 'showLists':
+                        $this->showLists();
+                        break;
+                    // ?controller=list&action=saveOrUpdateList
+                    case 'saveOrUpdateList':
+                        $this->saveOrUpdateList();
+                        break;
+                    default:
+                        throw new Exception("L'action n'existe pas: " . $_GET['action']);
+                        break;
+                }
+            } else {
+                throw new Exception("Aucune action détectée");
+            }
+        } catch (Exception $e) {
+            $this->render("Errors/error", ["errorMsg" => $e->getMessage()]);
+        }
+    }
+
+
+    // ?controller=list&action=showLists
+    public function showLists()
+    {
+        $listRepo = new ListRepository;
+        $categoryRepo = new CategoryRepository;
+
+        $categories = $categoryRepo->getAllCategories();
+
+        $lists = [];
+        $items = [];
+        $itemsByList = [];
+        $categoryId = null;
+
+        if (isset($_SESSION['user'])) {
+            if (isset($_GET['category'])) {
+                $categoryId = (int)$_GET['category'];
+            }
+            $lists = $listRepo->getListsByUserId($_SESSION['user']['id']);
+        }
+
+        if (!empty($lists)) {
+            foreach ($lists as $list) {
+                $itemsByList[$list['id']] = $listRepo->getListItems($list['id']);
+            }
+        }
+
+        $this->updateOrDeleteItem($listRepo);
+
+
+        $this->render(
+            "List/show-lists",
+            [
+                "categories" => $categories,
+                "itemsByList" => $itemsByList,
+                "lists" => $lists,
+                "categoryId" => $categoryId
+
+            ]
+        );
+    }
+
+
+    // ?controller=list&action=saveOrUpdateList
+    public function saveOrUpdateList()
+    {
+
+        if (Security::isLogged()) {
+            $errorsList = [];
+            $errorsListItem = [];
+            $messagesList = [];
+
+            $listRepo = new ListRepository;
+            $categoryRepo = new CategoryRepository;
+
+            $categories = $categoryRepo->getAllCategories();
+
+            $list = [
+                "title" => "",
+                "category_id" => ""
+            ];
+            $items = [];
+
+            $editMode = false;
+            if (isset($_GET['id'])) {
+                $list = $listRepo->getListById((int)$_GET['id']);
+                $editMode = true;
+
+                $items = $listRepo->getListItems((int)$_GET['id']);
+            }
+
+            // To save or update a list
+            if (isset($_POST['saveList'])) {
+                if (!empty($_POST['title'])) {
+                    $id = null;
+                    if (isset($_GET['id'])) {
+                        $id = $_GET['id'];
+                    }
+                    $res = $listRepo->saveList($_POST['title'], (int)$_SESSION['user']['id'], $_POST['category_id'], $id);
+                    if ($res) {
+                        if ($id) {
+                            $messagesList[] = 'La liste a bien été mise à jour';
+                        } else {
+                            header('Location: ?controller=list&action=saveOrUpdateList&id=' . $res);
+                        }
+                    } else {
+                        // erreur
+                        $errorsList[] = "La liste n'a pas été enregistrée";
+                    }
+                } else {
+                    // erreur
+                    $errorsList[] = "Le titre est obligatoire";
+                }
+            }
+
+            // To save or update an item from a list
+            if (isset($_POST['saveListItem'])) {
+                if (!empty($_POST['name'])) {
+                    // save
+                    $item_id = (isset($_POST['item_id']) ? $_POST['item_id'] : null);
+                    $res = $listRepo->saveListItem($_POST['name'], (int)$_GET['id'], false, $item_id);
+                    header('Location: ?controller=list&action=saveOrUpdateList&id=' . (int)$_GET['id']);
+                } else {
+                    // error
+                    $errorsListItem[] = "Le nom de l'item est obligatoire";
+                }
+            }
+            $this->updateOrDeleteItem($listRepo);
+
+            $this->render(
+                "List/save-update-list",
+                [
+                    "editMode" => $editMode,
+                    "list" => $list,
+                    "items" => $items,
+                    "categories" => $categories,
+                    "errorsList" => $errorsList,
+                    "errorsListItem" => $errorsListItem,
+                    "messagesList" => $messagesList
+                ]
+            );
+        } else {
+            header('Location: ?controller=user&action=logIn');
+            die;
+        }
+    }
+
+    protected function updateOrDeleteItem(ListRepository $listRepo)
+    {
+        if (isset($_GET['listAction']) && isset($_GET['item_id'])) {
+            if ($_GET['listAction'] === 'deleteListItem') {
+                $res = $listRepo->deleteListItemById((int)$_GET['item_id']);
+                header('Location: ?controller=list&action=saveOrUpdateList&id=' . (int)$_GET['id']);
+            }
+            if ($_GET['listAction'] === 'updateStatusListItem' && isset($_GET['status'])) {
+                $res = $listRepo->updateListItemStatus((int)$_GET['item_id'], (bool)$_GET['status']);
+                if (isset($_GET['redirect']) && $_GET['redirect'] === 'list') {
+                    header('Location: ?controller=list&action=showLists');
+                } else {
+                    header('Location: ?controller=list&action=saveOrUpdateList&id=' . (int)$_GET['id']);
+                }
+            }
+        }
+    }
+}

@@ -7,7 +7,7 @@ use Exception;
 class Controller
 {
 
-    public function route() : void
+    public function route(): void
     {
         try {
             $urlController = $_GET['controller'] ?? null;
@@ -23,8 +23,13 @@ class Controller
                         $pageController = new UserController();
                         $pageController->route();
                         break;
+                    // ?controller=list
+                    case 'list':
+                        $pageController = new ListController();
+                        $pageController->route();
+                        break;
                     default:
-                        throw new Exception("Le controleur n'existe pas: ".$_GET['controller']);
+                        throw new Exception("Le controleur n'existe pas: " . $_GET['controller']);
                         break;
                 }
             } else {
@@ -46,7 +51,6 @@ class Controller
             }
             extract($params);
             require_once $filePath;
-
         } catch (Exception $e) {
             $this->render("Errors/error", ["errorMsg" => $e->getMessage()]);
         }
