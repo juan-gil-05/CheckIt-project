@@ -9,45 +9,56 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-5 d-flex align-items-center">
+                        <img src="/Assets/logo-checkit.png" class="d-block mx-lg-auto img-fluid" alt="Logo CheckIt" width="500" loading="lazy">
+                    </div>
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Se registrer</h1>
                             </div>
-                            <form class="user">
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
-                                    </div>
+                            <form class="user" method="POST">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                                        placeholder="Nickname" name="nickname" value="<?= $nickname ?>">
+                                    <!-- Si il y a des erreurs on affiche le message d'erreur -->
+                                    <?php if (isset($errors['nicknameEmpty'])) { ?>
+                                        <div class="invalid-tooltip position-static small-text"><?= $errors['nicknameEmpty'] ?></div>
+                                    <?php } ?>
                                 </div>
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
+                                        placeholder="Email Address" name="email" value="<?= $email ?>">
+                                    <!-- Si il y a des erreurs on affiche le message d'erreur -->
+                                    <?php if (isset($errors['emailEmpty'])) { ?>
+                                        <div class="invalid-tooltip position-static small-text"><?= $errors['emailEmpty'] ?></div>
+                                        <!-- Si le email est déjà utilisé -->
+                                    <?php } elseif (isset($errors['emailUsed'])) { ?>
+                                        <div class="invalid-tooltip position-static small-text"><?= $errors['emailUsed'] ?></div>
+                                    <?php } ?>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
-                                    </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control form-control-user"
+                                        id="exampleInputPassword" placeholder="Password" name="password" value="<?= $password ?>">
+                                    <!-- Si il y a des erreurs on affiche le message d'erreur -->
+                                    <?php if (isset($errors['passwordEmpty'])) { ?>
+                                        <div class="invalid-tooltip position-static invalid-tooltip-mdp small-text"><?= $errors['passwordEmpty'] ?></div>
+                                        <!-- Si le mot de passe a moins de 12 caractères   -->
+                                    <?php } elseif (isset($errors['passwordLen'])) { ?>
+                                        <div class="invalid-tooltip position-static invalid-tooltip-mdp small-text"><?= $errors['passwordLen'] ?></div>
+                                        <!-- si le mot de passe ne respecte pas les requis d'une mot de passe secure -->
+                                    <?php } elseif (isset($errors['passwordInfo'])) { ?>
+                                        <div class="invalid-tooltip position-static invalid-tooltip-mdp small-text"><?= $errors['passwordInfo'] ?></div>
+                                    <?php } ?>
                                 </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                    Register Account
-                                </a>
+                                <button type="submit" class="btn btn-primary btn-user btn-block" name="signUp">
+                                    Se registrer
+                                </button>
                                 <hr>
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="login.html">Already have an account? Login!</a>
+                                <a class="small" href="login.html">Vous avez déjà un compte? Se connecter!</a>
                             </div>
                         </div>
                     </div>

@@ -18,7 +18,7 @@ class PageController extends Controller
                         $this->home();
                         break;
                     default:
-                        throw new Exception("Le controleur n'existe pas: " . $_GET['action']);
+                        throw new Exception("L'action n'existe pas: " . $_GET['action']);
                         break;
                 }
             } else {
