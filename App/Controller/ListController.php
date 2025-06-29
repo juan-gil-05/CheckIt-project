@@ -65,6 +65,13 @@ class ListController extends Controller
 
         $this->updateOrDeleteItem($listRepo);
 
+        // To filter the search by category
+        if (isset($_SESSION['user'])) {
+            if (isset($_GET['category'])) {
+                $categoryId = (int)$_GET['category'];
+            }
+            $lists = $listRepo->getListsByUserId($_SESSION['user']['id'], $categoryId);
+        }
 
         $this->render(
             "List/show-lists",
@@ -73,7 +80,6 @@ class ListController extends Controller
                 "itemsByList" => $itemsByList,
                 "lists" => $lists,
                 "categoryId" => $categoryId
-
             ]
         );
     }

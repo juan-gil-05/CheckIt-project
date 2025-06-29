@@ -9,18 +9,24 @@
     <main class="container">
 
         <div class="d-flex justify-content-between align-items-center">
+
             <h1>Mes listes</h1>
             <?php if (Security::isLogged()) { ?>
                 <a href="?controller=list&action=saveOrUpdateList" class="btn btn-primary">Ajouter une liste</a>
             <?php } ?>
             <form method="get">
+                <!-- Inputs hidden to send the whole url with the id category parameter -->
+                <input type="hidden" name="controller" value="list">
+                <input type="hidden" name="action" value="showLists">
                 <label for="category" class="form-label">Catégorie</label>
                 <select name="category" id="category" onchange="this.form.submit()">
                     <option value="">Toutes</option>
                     <?php foreach ($categories as $category) { ?>
-                        <option <?= ((int)$category['id'] === $categoryId ? 'selected="selected"' : '') ?> value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+                        <option <?= ((int)$category['id'] === $categoryId ? 'selected="selected"' : '') ?>
+                            value="<?= $category['id'] ?>">
+                            <?= $category['name'] ?>
+                        </option>
                     <?php } ?>
-
                 </select>
             </form>
         </div>

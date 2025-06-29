@@ -14,7 +14,7 @@ class ListRepository extends Repository
                 WHERE user_id = :user_id";
 
         if ($categoryId) {
-            $sql .= " AND list.category_id = :category_id";
+            $sql .= " AND List.category_id = :category_id";
         }
 
         $query = $this->pdo->prepare($sql);
