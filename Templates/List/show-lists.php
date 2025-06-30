@@ -39,7 +39,7 @@
                             <div class="card w-100">
                                 <div class="card-header d-flex align-items-center justify-content-evenly">
                                     <i class="bi bi-card-checklist"></i>
-                                    <h3 class="card-title"><?= $list['title'] ?></h3>
+                                    <h3 class="card-title mb-0"><?= $list['title'] ?></h3>
                                 </div>
                                 <div class="card-body d-flex flex-column ">
                                     <?php if ($itemsByList[$list['id']]) { ?>
@@ -56,7 +56,7 @@
                                     <?php } ?>
                                     <div class="d-flex justify-content-between align-items-end mt-2">
                                         <a href="?controller=list&action=saveOrUpdateList&id=<?= $list['id'] ?>" class="btn btn-primary">Voir la liste</a>
-                                        <span class="badge rounded-pill text-bg-primary">
+                                        <span class="badge rounded-pill text-bg-primary p-2">
                                             <i class="bi <?= $list['category_icon'] ?>"></i>
                                             <?= $list['category_name'] ?>
                                         </span>

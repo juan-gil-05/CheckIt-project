@@ -28,3 +28,17 @@ main {
     background-color: var(--bs-danger);
     border-radius: var(--bs-border-radius);
 }
+
+.text-bg-primary {
+    background-color: #4877d7 !important;
+}
+
+.nav-link {
+    color: #4877d7;
+}
+
+.menu-selected {
+    color: white !important;
+    background-color: #649daeff;
+    border-radius: 25px;
+}

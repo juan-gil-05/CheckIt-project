@@ -124,6 +124,7 @@ class ListController extends Controller
                     if ($res) {
                         if ($id) {
                             $messagesList[] = 'La liste a bien été mise à jour';
+                            header('Location: ?controller=list&action=saveOrUpdateList&id=' . $res);
                         } else {
                             header('Location: ?controller=list&action=saveOrUpdateList&id=' . $res);
                         }
