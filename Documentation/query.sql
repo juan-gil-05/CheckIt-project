@@ -67,8 +67,22 @@ INSERT INTO Category (name, icon) VALUES
 ('Travail', 'bi-person-workspace');
 
 SELECT * FROM Category;
+SELECT * FROM List;
+SELECT * FROM Item;
 
+INSERT INTO Category (name, icon) VALUES
+('Courses', 'bi-cart-fill'),
+('Cadeaux', 'bi-gift-fill');
 
+INSERT INTO Tag(name) VALUES ('Urgent'), ('Important'), ('En cours'), ('À vérifier'), ('À acheter');
+
+SELECT * FROM Tag;
+
+SELECT * FROM Item_Tag;
+
+SELECT Item_Tag* , Tag.name as tag_name 
+FROM Item_Tag as IT 
+INNER JOIN Tag ON IT.tag_id = Tag.id
 
 
 

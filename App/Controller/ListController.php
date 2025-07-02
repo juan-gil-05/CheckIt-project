@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\CategoryRepository;
 use App\Repository\ListRepository;
+use App\Repository\TagRepository;
 use App\Security\Security;
 use Exception;
 
@@ -93,17 +94,24 @@ class ListController extends Controller
             $errorsList = [];
             $errorsListItem = [];
             $messagesList = [];
+            $messagesListItem = [];
 
             $listRepo = new ListRepository;
             $categoryRepo = new CategoryRepository;
+            $tagRepo = new TagRepository;
 
             $categories = $categoryRepo->getAllCategories();
-
+            $tags = $tagRepo->getAllTags();
             $list = [
                 "title" => "",
                 "category_id" => ""
             ];
             $items = [];
+            $itemTagRes = [];
+            $itemTag = [
+                "item_id" => "",
+                "tag_id" => ""
+            ];
 
             $editMode = false;
             if (isset($_GET['id'])) {
@@ -111,6 +119,12 @@ class ListController extends Controller
                 $editMode = true;
 
                 $items = $listRepo->getListItems((int)$_GET['id']);
+
+                foreach ($items as $item) {
+                    $itemTagRes[$item['id']] = $tagRepo->getItemTagByItemId($item['id']);
+
+                    // var_dump($itemTagRes[5]);
+                }
             }
 
             // To save or update a list
@@ -152,16 +166,56 @@ class ListController extends Controller
             }
             $this->updateOrDeleteItem($listRepo);
 
+            if (isset($_POST['saveItemTag'])) {
+                $itemId = isset($_POST['item_id']) ? (int)$_POST['item_id'] : null;
+                $tagId = isset($_POST['tag_id']) ? (int)$_POST['tag_id'] : null;
+
+                if ($tagId === 0) {
+                    $errorsListItem[] = "Vous devez choisir un tag";
+                    header("Refresh:3");
+                } else {
+                    // Vérifier si le tag est déjà associé à l'item
+                    $existingTags = $tagRepo->getItemTagByItemId($itemId);
+                    $isDuplicate = false;
+
+                    foreach ($existingTags as $tag) {
+                        if ((int)$tag['tag_id'] === $tagId) {
+                            $isDuplicate = true;
+                            break;
+                        }
+                    }
+
+                    if ($isDuplicate) {
+                        $errorsListItem[] = "Ce tag est déjà choisi pour cet item";
+                        header("Refresh:3");
+                    } else {
+                        $res = $listRepo->saveItemTag($itemId, $tagId);
+                        $messagesListItem[] = "Tag ajouté";
+                        header("Refresh:3");
+                        if (!$res) {
+                            $errorsListItem[] = "Une erreur est survenue lors de l'ajout du tag";
+                            header("Refresh:3");
+                        }
+                    }
+                }
+            }
+
+            $this->deleteItemTag($tagRepo);
+
+
             $this->render(
                 "List/save-update-list",
                 [
                     "editMode" => $editMode,
                     "list" => $list,
                     "items" => $items,
+                    "itemTagRes" => $itemTagRes,
                     "categories" => $categories,
+                    "tags" => $tags,
                     "errorsList" => $errorsList,
                     "errorsListItem" => $errorsListItem,
-                    "messagesList" => $messagesList
+                    "messagesList" => $messagesList,
+                    "messagesListItem" => $messagesListItem
                 ]
             );
         } else {
@@ -184,6 +238,16 @@ class ListController extends Controller
                 } else {
                     header('Location: ?controller=list&action=saveOrUpdateList&id=' . (int)$_GET['id']);
                 }
+            }
+        }
+    }
+
+    protected function deleteItemTag(TagRepository $tagRepo)
+    {
+        if (isset($_GET['itemTagAction']) && isset($_GET['item_id'])) {
+            if ($_GET['itemTagAction'] === 'deleteItemTag') {
+                $res = $tagRepo->deleteItemTag((int)$_GET['item_id'], (int)$_GET['tag_id']);
+                header('Location: ?controller=list&action=saveOrUpdateList&id=' . (int)$_GET['id']);
             }
         }
     }

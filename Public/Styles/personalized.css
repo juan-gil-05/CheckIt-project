@@ -42,3 +42,22 @@ main {
     background-color: #649daeff;
     border-radius: 25px;
 }
+
+ul {
+    list-style: none;
+}
+
+.item-tag-list {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.item-tag-list>li {
+    padding: 5px 25px;
+    background-color: #9E9E9E;
+    border-radius: 25px;
+    color: white;
+    display: flex;
+    align-items: center;
+}

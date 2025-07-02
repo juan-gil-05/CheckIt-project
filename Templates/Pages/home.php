@@ -60,7 +60,7 @@
                             <i class="bi text-primary bi-search"></i>
                         </div>
                         <div class="card-body">
-                            <h3 class="card-title">Retrouver facilement vos listes</h3>
+                            <h3 class="card-title">Ajouter des tags aux items de vos listes</h3>
                             <?php if (Security::isLogged()) { ?>
                                 <a href="?controller=list&action=saveOrUpdateList" class="btn btn-primary">Créer une liste</a>
                             <?php } else { ?>
