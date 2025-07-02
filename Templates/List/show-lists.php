@@ -57,7 +57,7 @@
                                     <?php } ?>
                                     <!-- Button to see the list in detail -->
                                     <div class="d-flex justify-content-between align-items-end mt-2">
-                                        <a href="?controller=list&action=saveOrUpdateList&id=<?= $list['id'] ?>" class="btn btn-primary">Voir la liste</a>
+                                        <a href="?controller=list&action=saveOrUpdateList&id=<?= $encryptedListId[$list['id']] ?>" class="btn btn-primary">Voir la liste</a>
                                         <span class="badge rounded-pill text-bg-primary p-2">
                                             <i class="bi <?= $list['category_icon'] ?>"></i>
                                             <?= $list['category_name'] ?>

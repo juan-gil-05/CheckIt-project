@@ -60,6 +60,8 @@ class ListController extends Controller
         if (!empty($lists)) {
             foreach ($lists as $list) {
                 $itemsByList[$list['id']] = $listRepo->getListItems($list['id']);
+
+                $encryptedListId[$list['id']] = Security::encryptUrlParameter($list['id']);
             }
         }
 
@@ -73,13 +75,15 @@ class ListController extends Controller
             $lists = $listRepo->getListsByUserId($_SESSION['user']['id'], $categoryId);
         }
 
+
         $this->render(
             "List/show-lists",
             [
                 "categories" => $categories,
                 "itemsByList" => $itemsByList,
                 "lists" => $lists,
-                "categoryId" => $categoryId
+                "categoryId" => $categoryId,
+                "encryptedListId" => $encryptedListId
             ]
         );
     }
@@ -109,10 +113,13 @@ class ListController extends Controller
             $editMode = false;
             // To edit the list and items
             if (isset($_GET['id'])) {
-                $list = $listRepo->getListById((int)$_GET['id']);
+
+                $listId = Security::decryptUrlParameter($_GET['id']);
+
+                $list = $listRepo->getListById($listId);
                 $editMode = true;
 
-                $items = $listRepo->getListItems((int)$_GET['id']);
+                $items = $listRepo->getListItems($listId);
 
                 foreach ($items as $item) {
                     $itemTag[$item['id']] = $tagRepo->getItemTagByItemId($item['id']);

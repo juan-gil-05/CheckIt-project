@@ -17,7 +17,7 @@ class Mysql
 
     public function __construct()
     {
-        // Appel du fichier avec les paramètres de la BDD
+        // Config file with environment variables
         $config = require BASE_PATH . "/config.php";
 
         $this->db_name = $config['MYSQL_DATABASE'];
