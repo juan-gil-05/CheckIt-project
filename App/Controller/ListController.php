@@ -47,7 +47,6 @@ class ListController extends Controller
         $categories = $categoryRepo->getAllCategories();
 
         $lists = [];
-        $items = [];
         $itemsByList = [];
         $categoryId = null;
 
@@ -85,11 +84,9 @@ class ListController extends Controller
         );
     }
 
-
     // ?controller=list&action=saveOrUpdateList
     public function saveOrUpdateList()
     {
-
         if (Security::isLogged()) {
             $errorsList = [];
             $errorsListItem = [];
@@ -107,13 +104,10 @@ class ListController extends Controller
                 "category_id" => ""
             ];
             $items = [];
-            $itemTagRes = [];
-            $itemTag = [
-                "item_id" => "",
-                "tag_id" => ""
-            ];
+            $itemTag = [];
 
             $editMode = false;
+            // To edit the list and items
             if (isset($_GET['id'])) {
                 $list = $listRepo->getListById((int)$_GET['id']);
                 $editMode = true;
@@ -121,9 +115,7 @@ class ListController extends Controller
                 $items = $listRepo->getListItems((int)$_GET['id']);
 
                 foreach ($items as $item) {
-                    $itemTagRes[$item['id']] = $tagRepo->getItemTagByItemId($item['id']);
-
-                    // var_dump($itemTagRes[5]);
+                    $itemTag[$item['id']] = $tagRepo->getItemTagByItemId($item['id']);
                 }
             }
 
@@ -166,6 +158,7 @@ class ListController extends Controller
             }
             $this->updateOrDeleteItem($listRepo);
 
+            // To save an item from list
             if (isset($_POST['saveItemTag'])) {
                 $itemId = isset($_POST['item_id']) ? (int)$_POST['item_id'] : null;
                 $tagId = isset($_POST['tag_id']) ? (int)$_POST['tag_id'] : null;
@@ -174,7 +167,7 @@ class ListController extends Controller
                     $errorsListItem[] = "Vous devez choisir un tag";
                     header("Refresh:3");
                 } else {
-                    // Vérifier si le tag est déjà associé à l'item
+                    // To verify if the tag is already in use to the item
                     $existingTags = $tagRepo->getItemTagByItemId($itemId);
                     $isDuplicate = false;
 
@@ -189,7 +182,7 @@ class ListController extends Controller
                         $errorsListItem[] = "Ce tag est déjà choisi pour cet item";
                         header("Refresh:3");
                     } else {
-                        $res = $listRepo->saveItemTag($itemId, $tagId);
+                        $res = $tagRepo->saveItemTag($itemId, $tagId);
                         $messagesListItem[] = "Tag ajouté";
                         header("Refresh:3");
                         if (!$res) {
@@ -209,7 +202,7 @@ class ListController extends Controller
                     "editMode" => $editMode,
                     "list" => $list,
                     "items" => $items,
-                    "itemTagRes" => $itemTagRes,
+                    "itemTag" => $itemTag,
                     "categories" => $categories,
                     "tags" => $tags,
                     "errorsList" => $errorsList,

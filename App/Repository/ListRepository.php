@@ -111,23 +111,4 @@ class ListRepository extends Repository
 
         return $query->execute();
     }
-
-    public function saveItemTag(int $itemId, int $tagId)
-    {
-        $query = $this->pdo->prepare("INSERT INTO Item_Tag (item_id, tag_id) VALUES (:itemId, :tagId)");
-        $query->bindValue(":itemId", $itemId, $this->pdo::PARAM_INT);
-        $query->bindValue(":tagId", $tagId, $this->pdo::PARAM_INT);
-        return $query->execute();
-    }
-
-    public function getItemTagByItemId(int $itemId)
-    {
-        $query = $this->pdo->prepare('SELECT * FROM Item_Tag WHERE item_id = :itemId');
-        $query->bindValue(':itemId', $itemId, $this->pdo::PARAM_INT);
-        $query->execute();
-
-        return $query->fetchAll($this->pdo::FETCH_ASSOC);
-    }
-
-
 }

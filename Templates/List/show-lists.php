@@ -44,6 +44,7 @@
                                 <div class="card-body d-flex flex-column ">
                                     <?php if ($itemsByList[$list['id']]) { ?>
                                         <ul class="list-group">
+                                            <!-- To show and edit all the items for each list -->
                                             <?php foreach ($itemsByList[$list['id']] as $item) { ?>
                                                 <li class="list-group-item">
                                                     <a class="me-2"
@@ -54,6 +55,7 @@
                                             <?php } ?>
                                         </ul>
                                     <?php } ?>
+                                    <!-- Button to see the list in detail -->
                                     <div class="d-flex justify-content-between align-items-end mt-2">
                                         <a href="?controller=list&action=saveOrUpdateList&id=<?= $list['id'] ?>" class="btn btn-primary">Voir la liste</a>
                                         <span class="badge rounded-pill text-bg-primary p-2">
@@ -66,7 +68,7 @@
                         </div>
                     <?php } ?>
                 <?php } else { ?>
-                    <p>Aucune liste</p>
+                    <h3 class="d-flex justify-content-center pt-5">Aucune liste</h3>
                 <?php } ?>
 
             <?php } else { ?>

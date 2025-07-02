@@ -4,11 +4,13 @@
 
     <main class="container col-xxl-8">
         <h1>Liste</h1>
+        <!-- To show the error messages -->
         <?php foreach ($errorsList as $error) { ?>
             <div class="alert alert-danger">
                 <?= $error; ?>
             </div>
         <?php } ?>
+        <!-- To show the succes messages -->
         <?php foreach ($messagesList as $message) { ?>
             <div class="alert alert-success">
                 <?= $message; ?>
@@ -31,6 +33,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="category_id" class="form-label">Catégorie</label>
+                                <!-- Section to filter by category -->
                                 <select name="category_id" id="category_id" class="form-control">
                                     <?php foreach ($categories as $category) { ?>
                                         <option <?= ($category['id'] === $list['category_id']) ? 'selected="selected"' : '' ?>
@@ -54,11 +57,13 @@
                 </div>
             <?php } else { ?>
                 <h2 class="border-top pt-3">Items</h2>
+                <!-- To show the error messages -->
                 <?php foreach ($errorsListItem as $error) { ?>
                     <div class="alert alert-danger">
                         <?= $error; ?>
                     </div>
                 <?php } ?>
+                <!-- To show the succes messages -->
                 <?php foreach ($messagesListItem as $message) { ?>
                     <div class="alert alert-success">
                         <?= $message; ?>
@@ -117,12 +122,14 @@
                                                 <input type="submit" value="Ajouter" name="saveItemTag" class="btn btn-primary">
                                             </form>
                                         </div>
-                                        <?php if (!empty($itemTagRes[$item['id']])) { ?>
+                                        <!-- To show the tags -->
+                                        <?php if (!empty($itemTag[$item['id']])) { ?>
                                             <div>
                                                 <ul class="item-tag-list">
-                                                    <?php foreach ($itemTagRes[$item['id']] as $itemTag) { ?>
+                                                    <?php foreach ($itemTag[$item['id']] as $itemTag) { ?>
                                                         <li class="">
                                                             <?= $itemTag['tag_name'] ?>
+                                                            <!-- To delete the tag -->
                                                             <a class="btn btn-light ms-3" href="<?= $_SERVER['REQUEST_URI'] ?>&itemTagAction=deleteItemTag&item_id=<?= $itemTag['item_id'] ?>&tag_id=<?= $itemTag['tag_id'] ?>"
                                                                 onclick="return confirm('Etes-vous sûr de vouloir supprimer ce tag ?')">
                                                                 <i class="bi bi-trash3-fill"></i>
