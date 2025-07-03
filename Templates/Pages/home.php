@@ -1,30 +1,16 @@
 <div class="d-flex-column-wrapper">
     <?php
 
-    use App\Security\Security;
-use MongoDB\Client;
+use App\Repository\ItemRepository;
+use App\Security\Security;
+    use MongoDB\Client;
 
     require_once BASE_PATH . "/Templates/header.php";
     $nickname = $_SESSION['user']['nickname'] ?? null;
     echo ($nickname) ? "Bienvenue $nickname" : "";
 
-
-    try {
-        $client = new Client("mongodb://checkit_mongo:tx8fGVgD9VMlNOu@mongo:27017");
-
-        $databases = $client->listDatabases();
-        echo "<h2>✅ Connexion réussie à MongoDB</h2>";
-        echo "<ul>";
-        foreach ($databases as $db) {
-            echo "<li>" . $db->getName() . "</li>";
-        }
-        echo "</ul>";
-    } catch (Exception $e) {
-        echo "<h2>❌ Erreur de connexion :</h2>";
-        echo $e->getMessage();
-    }
-
-
+    $var = new ItemRepository;
+    $var->conect();
     ?>
 
     <main>

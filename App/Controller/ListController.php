@@ -49,6 +49,7 @@ class ListController extends Controller
         $lists = [];
         $itemsByList = [];
         $categoryId = null;
+        $encryptedListId = [];
 
         if (isset($_SESSION['user'])) {
             if (isset($_GET['category'])) {
