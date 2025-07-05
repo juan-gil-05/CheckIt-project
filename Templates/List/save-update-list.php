@@ -16,6 +16,7 @@
                 <?= $message; ?>
             </div>
         <?php } ?>
+        <!-- To show or edit the list -->
         <div class="accordion" id="accordionExample">
             <div class="accordion-item">
                 <h2 class="accordion-header">
@@ -42,14 +43,22 @@
                                     <?php } ?>
                                 </select>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3 d-flex justify-content-between">
                                 <input type="submit" value="Enregistrer" name="saveList" class="btn btn-primary">
+                                <?php if ($editMode) { ?>
+                                    <a class="btn btn-outline-primary" href="<?= $_SERVER['REQUEST_URI'] ?>&listAction=deleteList&list_id=<?= $list['id'] ?>"
+                                        onclick="return confirm('Etes-vous sûr de vouloir supprimer cette liste ?')">
+                                        <i class="bi bi-trash3-fill"></i>
+                                        Supprimer
+                                    </a>
+                                <?php } ?>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- To show or edit the items-->
         <div class="row mt-3">
             <?php if (!$editMode) { ?>
                 <div class="alert alert-warning">
@@ -122,16 +131,77 @@
                                                 <input type="submit" value="Ajouter" name="saveItemTag" class="btn btn-primary">
                                             </form>
                                         </div>
-                                        <!-- To show the tags -->
-                                        <?php if (!empty($itemTag[$item['id']])) { ?>
-                                            <div>
-                                                <ul class="item-tag-list">
-                                                    <?php foreach ($itemTag[$item['id']] as $itemTag) { ?>
-                                                        <li class="">
-                                                            <?= $itemTag['tag_name'] ?>
-                                                            <!-- To delete the tag -->
-                                                            <a class="btn btn-light ms-3" href="<?= $_SERVER['REQUEST_URI'] ?>&itemTagAction=deleteItemTag&item_id=<?= $itemTag['item_id'] ?>&tag_id=<?= $itemTag['tag_id'] ?>"
-                                                                onclick="return confirm('Etes-vous sûr de vouloir supprimer ce tag ?')">
+                                        <!-- To show the reminder button, and the tags -->
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reminderModal<?= $item['id'] ?>">
+                                                    Ajouter un rappel
+                                                </button>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="reminderModal<?= $item['id'] ?>" tabindex="-1" aria-labelledby="reminderModalLabel<?= $item['id'] ?>" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="reminderModalLabel<?= $item['id'] ?>">Ajouter un rappel</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form method="post" class="d-flex flex-column gap-3">
+                                                                    <div class="form-group">
+                                                                        <label for="remind_at" class="form-label">Date et heure du rappel</label>
+                                                                        <input type="datetime-local" name="remind_at" id="remind_at" class="form-control" required>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for="message" class="form-label">Message (facultatif)</label>
+                                                                        <input type="text" name="message" id="message" class="form-control" placeholder="Message (facultatif)">
+                                                                    </div>
+                                                                    <input type="hidden" name="item_id" value="<?= $item['id'] ?>">
+                                                                    <button class="btn btn-primary" name="saveReminder" type="submit">Ajouter</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- To show the tags -->
+                                            <?php if (!empty($itemTag[$item['id']])) { ?>
+                                                <div class="col-10">
+                                                    <ul class="item-tag-list">
+                                                        <?php foreach ($itemTag[$item['id']] as $itemTag) { ?>
+                                                            <li class="">
+                                                                <?= $itemTag['tag_name'] ?>
+                                                                <!-- To delete the tag -->
+                                                                <a class="btn btn-light ms-3" href="<?= $_SERVER['REQUEST_URI'] ?>&itemTagAction=deleteItemTag&item_id=<?= $itemTag['item_id'] ?>&tag_id=<?= $itemTag['tag_id'] ?>"
+                                                                    onclick="return confirm('Etes-vous sûr de vouloir supprimer ce tag ?')">
+                                                                    <i class="bi bi-trash3-fill"></i>
+                                                                </a>
+                                                            </li>
+                                                        <?php } ?>
+                                                    </ul>
+                                                </div>
+                                            <?php } ?>
+                                        </div>
+                                        <!-- To show the reminders for each item -->
+                                        <?php if (!empty($itemReminders[$item['id']])) { ?>
+                                            <div class="mt-2">
+                                                <h6 class="text-secondary">Rappels :</h6>
+                                                <ul class="list-group">
+                                                    <?php foreach ($itemReminders[$item['id']] as $reminder) { ?>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            <div>
+                                                                <i class="bi bi-bell-fill text-primary me-2"></i>
+                                                                <?= $reminder['message'] ?: 'Sans message' ?>
+                                                                <br>
+                                                                <small>
+                                                                    <strong>Date :</strong>
+                                                                    <?= $reminder['remind_at']->toDateTime()->format('d/m/Y H:i') ?>
+                                                                </small>
+                                                            </div>
+                                                            <!-- To delete the reminder -->
+                                                            <a class="btn btn-light ms-3" href="<?= $_SERVER['REQUEST_URI'] ?>&reminderAction=deleteReminder&reminder_id=<?= (string)$reminder['_id'] ?>"
+                                                                onclick="return confirm('Etes-vous sûr de vouloir supprimer ce rappel ?')">
                                                                 <i class="bi bi-trash3-fill"></i>
                                                             </a>
                                                         </li>

@@ -66,6 +66,12 @@ class ListRepository extends Repository
         }
     }
 
+    public function deleteListById(int $listId)
+    {
+        $query = $this->pdo->prepare("DELETE FROM List WHERE id = :listId");
+        $query->bindValue(":listId", $listId, $this->pdo::PARAM_INT);
+        $query->execute();
+    }
 
     public function saveListItem(string $name, int $listId, bool $status = false, int $id = null): bool
     {

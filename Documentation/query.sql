@@ -80,12 +80,17 @@ SELECT * FROM Tag;
 
 SELECT * FROM Item_Tag;
 
-SELECT Item_Tag* , Tag.name as tag_name 
+SELECT IT.*, Tag.name as tag_name 
 FROM Item_Tag as IT 
-INNER JOIN Tag ON IT.tag_id = Tag.id
+INNER JOIN Tag ON IT.tag_id = Tag.id;
 
+DELETE FROM Item_Tag WHERE id = 9;
 
+SELECT * FROM List WHERE id = 9;
 
+SELECT * FROM Item WHERE id = 7;
+
+SELECT * FROM List;
 
 
 

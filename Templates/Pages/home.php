@@ -1,16 +1,9 @@
 <div class="d-flex-column-wrapper">
     <?php
 
-use App\Repository\ItemRepository;
-use App\Security\Security;
-    use MongoDB\Client;
+    use App\Security\Security;
 
     require_once BASE_PATH . "/Templates/header.php";
-    $nickname = $_SESSION['user']['nickname'] ?? null;
-    echo ($nickname) ? "Bienvenue $nickname" : "";
-
-    $var = new ItemRepository;
-    $var->conect();
     ?>
 
     <main>
