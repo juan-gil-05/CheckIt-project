@@ -91,7 +91,7 @@ SELECT * FROM List WHERE id = 9;
 SELECT * FROM Item WHERE id = 7;
 
 SELECT * FROM List;
-
+DELETE FROM List WHERE id = 3;
 
 
 

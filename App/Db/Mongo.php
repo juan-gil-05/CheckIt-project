@@ -40,7 +40,10 @@ class Mongo
         $port = $this->db_port_mongo;
 
         try {
-            $connectionPath = "mongodb://" . $user . ":" . $password . "@" . $host . ":" . $port;
+            // Connection string to mongoDB Atlas - App in production 
+            $connectionPath = "mongodb+srv://" . $user . ":" . $password . "@" . $host . "/?retryWrites=true&w=majority";
+            // Connection string to mongoDB - App in local 
+            // $connectionPath = "mongodb://" . $user . ":" . $password . "@" . $host . ":" . $port;
             $mongo = new Client($connectionPath);
             return $mongo;
         } catch (Exception $e) {
