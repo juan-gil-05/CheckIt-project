@@ -27,8 +27,8 @@ use App\Security\Security;
             </div>
 
             <ul class="nav  mb-2 justify-content-center mb-md-0">
-                <li><a href="?controller=page&action=home" class="nav-link px-2 <?= ($_GET['controller'] === 'page') ? "menu-selected" : "" ?> ">Home</a></li>
-                <li><a href="?controller=list&action=showLists" class="nav-link px-2 <?= ($_GET['controller'] === 'list') ? "menu-selected" : "" ?> ">Mes listes</a></li>
+                <li><a href="?controller=page&action=home" class="nav-link px-2 <?= isset($_GET['controller']) && ($_GET['controller'] === 'page') ? "menu-selected" : "" ?> ">Home</a></li>
+                <li><a href="?controller=list&action=showLists" class="nav-link px-2 <?= isset($_GET['controller']) && ($_GET['controller'] === 'list') ? "menu-selected" : "" ?> ">Mes listes</a></li>
             </ul>
 
             <div class=" text-end">
