@@ -80,7 +80,6 @@
                 <?php } ?>
                 <!-- Form to save a new item -->
                 <form method="post" class="d-flex ">
-                    <input type="checkbox" name="status" id="status">
                     <input type="text" name="name" id="name" placeholder="Ajouter un item" class="form-control mx-2">
                     <input type="submit" name="saveListItem" class="btn btn-primary" value="Enregistrer">
                 </form>

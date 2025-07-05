@@ -2,6 +2,8 @@
 
 namespace App\Security;
 
+use App\Entity\User;
+
 class Security
 {
 
@@ -37,5 +39,15 @@ class Security
         $encrypted = substr($decodedParam, 16);
         $decrypted = openssl_decrypt($encrypted, "AES-128-CBC", $key, 0, $IV);
         return $decrypted;
+    }
+
+    public static function passwordHasher(User $user)
+    {
+        if (!empty($_POST['password'])) {
+            $passwordHashed = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+            return $user->setPassword($passwordHashed);
+        } else {
+            return false;
+        }
     }
 }

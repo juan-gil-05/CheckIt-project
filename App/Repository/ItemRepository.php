@@ -4,29 +4,9 @@ namespace App\Repository;
 
 use Exception;
 use MongoDB\BSON\ObjectId;
-use MongoDB\BSON\UTCDateTime;
-use MongoDB\Collection;
 
 class ItemRepository extends Repository
 {
-    public function conect()
-    {
-        try {
-            $client = $this->mongo;
-
-            $databases = $client->listDatabases();
-            echo "<h2>✅ Connexion réussie à MongoDB</h2>";
-            echo "<ul>";
-            foreach ($databases as $db) {
-                echo "<li>" . $db->getName() . "</li>";
-            }
-            echo "</ul>";
-        } catch (Exception $e) {
-            echo "<h2>❌ Erreur de connexion :</h2>";
-            echo $e->getMessage();
-        }
-    }
-
     public function saveReminder(int $userId, int $itemId, int $listId, $remindAt, string $message)
     {
         $mongo = $this->mongo;
@@ -62,7 +42,7 @@ class ItemRepository extends Repository
 
         $mongo = $this->mongo;
 
-        $reminder = $mongo->selectCollection('checkItMongoDB', 'reminders')->deleteOne(['_id' => new ObjectId($remindId)]);
+        return $mongo->selectCollection('checkItMongoDB', 'reminders')->deleteOne(['_id' => new ObjectId($remindId)]);
 
     }
 }

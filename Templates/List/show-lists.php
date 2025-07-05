@@ -81,8 +81,6 @@
 
     </main>
 
-
-
     <?php require_once BASE_PATH . "/Templates/footer.php" ?>
 
 </div>

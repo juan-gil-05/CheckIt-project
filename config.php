@@ -1,7 +1,7 @@
 <?php
 require_once BASE_PATH . '/vendor/autoload.php';
 
-// Dans ce fichier on charge les variables d'environement avec la Bibliotheque vlucas/phpdotenv
+// File to initilaize env variables with the vlucas/phpdotenv library
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(BASE_PATH);

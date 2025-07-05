@@ -17,7 +17,6 @@ class Mysql
 
     public function __construct()
     {
-        // Config file with environment variables
         $config = require BASE_PATH . "/config.php";
 
         $this->db_name = $config['MYSQL_DATABASE'];
@@ -27,6 +26,7 @@ class Mysql
         $this->db_host = $config['MYSQL_HOST'];
     }
 
+    // SINGLETON pattern
     public static function getInstance(): self
     {
         try {

@@ -5,7 +5,6 @@
 
         <div class="card o-hidden border-0 shadow-lg my-5">
             <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
                 <div class="row">
                     <div class="col-lg-5 d-flex align-items-center ps-5">
                         <img src="/Assets/logo-checkit.png" class="d-block mx-lg-auto img-fluid" alt="Logo CheckIt" width="500" loading="lazy">
@@ -19,7 +18,6 @@
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="exampleFirstName"
                                         placeholder="Nickname" name="nickname" value="<?= $nickname ?>">
-                                    <!-- Si il y a des erreurs on affiche le message d'erreur -->
                                     <?php if (isset($errors['nicknameEmpty'])) { ?>
                                         <div class="invalid-tooltip position-static small-text"><?= $errors['nicknameEmpty'] ?></div>
                                     <?php } ?>
@@ -27,10 +25,8 @@
                                 <div class="form-group">
                                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
                                         placeholder="Email Address" name="email" value="<?= $email ?>">
-                                    <!-- Si il y a des erreurs on affiche le message d'erreur -->
                                     <?php if (isset($errors['emailEmpty'])) { ?>
                                         <div class="invalid-tooltip position-static small-text"><?= $errors['emailEmpty'] ?></div>
-                                        <!-- Si le email est déjà utilisé -->
                                     <?php } elseif (isset($errors['emailUsed'])) { ?>
                                         <div class="invalid-tooltip position-static small-text"><?= $errors['emailUsed'] ?></div>
                                     <?php } ?>
@@ -38,13 +34,10 @@
                                 <div class="form-group">
                                     <input type="password" class="form-control form-control-user"
                                         id="exampleInputPassword" placeholder="Password" name="password" value="<?= $password ?>">
-                                    <!-- Si il y a des erreurs on affiche le message d'erreur -->
                                     <?php if (isset($errors['passwordEmpty'])) { ?>
                                         <div class="invalid-tooltip position-static invalid-tooltip-mdp small-text"><?= $errors['passwordEmpty'] ?></div>
-                                        <!-- Si le mot de passe a moins de 12 caractères   -->
                                     <?php } elseif (isset($errors['passwordLen'])) { ?>
                                         <div class="invalid-tooltip position-static invalid-tooltip-mdp small-text"><?= $errors['passwordLen'] ?></div>
-                                        <!-- si le mot de passe ne respecte pas les requis d'une mot de passe secure -->
                                     <?php } elseif (isset($errors['passwordInfo'])) { ?>
                                         <div class="invalid-tooltip position-static invalid-tooltip-mdp small-text"><?= $errors['passwordInfo'] ?></div>
                                     <?php } ?>

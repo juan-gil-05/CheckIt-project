@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use App\Security\Security;
 use App\Security\UserValidator;
 use Exception;
 
@@ -20,9 +21,11 @@ class UserController extends Controller
                     case 'signUp':
                         $this->signUp();
                         break;
+                    // ?controller=user&action=logIn
                     case 'logIn':
                         $this->logIn();
                         break;
+                    // ?controller=user&action=logOut
                     case 'logOut':
                         $this->logOut();
                         break;
@@ -53,26 +56,20 @@ class UserController extends Controller
             $user = new User();
             $UserValidator = new UserValidator();
             $userRepository = new UserRepository();
-            // Si le formulaire est envoyé, on hydrate l'objet User avec les données passées
             if (isset($_POST['signUp'])) {
                 $user->hydrate($_POST);
                 $nickname = $user->getNickname();
                 $email = $user->getEmail();
                 $password = $user->getPassword();
-                // Pour hasher le mot de passe
-                $this->passwordHasher($user);
-                // Pour valider s'il n'y a pas des erreurs dans le formulaire
+                Security::passwordHasher($user);
+                // To verify the form
                 $errors = $UserValidator->singUpValidate($user);
-                // S'il n'y a pas des erreurs, on crée l'utilisateur dans la basse des données
                 if (empty($errors)) {
-                    // Si l'utilisateur est passager 
                     $userRepository->createUser($user);
-                    // On envoie l'utilisateur vers la page de connexion
                     header('Location: ?controller=user&action=logIn');
                     exit();
                 }
             }
-            // On affiche la page de création du compte, et on passe des params
             $this->render(
                 "User/sign-up",
                 [
@@ -99,30 +96,22 @@ class UserController extends Controller
         $userEmail = "";
 
         try {
-            // Si le formulaire est envoyé, on cherche l'utilisateur par son mail
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $userRepository = new UserRepository;
                 $userValidator = new UserValidator;
-                // on cherche l'utilisateur par son mail
                 $user = $userRepository->findOneByEmail($_POST['email']);
-                // On récupère le mail de l'utilisateur
                 $userEmail = ($user) ? $user->getEmail() : $_POST['email'];
                 $userPassword = ($user) ? $user->getPassword() : $_POST['password'];
-                // Validation des erreurs dans le formulaire
                 $errors = $userValidator->logInValidate($userEmail, $userPassword);
-                // S'il n'y a pas des erreurs ...
                 if (empty($errors)) {
-                    // Et si le mot de passe est correct ...
                     if ($user && $userValidator->passwordVerify($_POST['password'], $user)) {
-                        // Pour générer l'id de la session
+                        // User session setUp
                         session_regenerate_id(true);
-                        // On crée une nouvelle session avec les données de l'utilisateur connecté
                         $_SESSION['user'] = [
                             "id" => $user->getId(),
                             "nickname" => $user->getNickname(),
                             "email" => $user->getEmail(),
                         ];
-                        // On redirige vers la page d'accueil
                         header('location: ?controller=page&action=home');
                         exit();
                     } else {
@@ -135,7 +124,6 @@ class UserController extends Controller
                 'errorMsg' => $e->getMessage()
             ]);
         }
-        // On affiche la page de connexion, et on passe des params
         $this->render("User/log-in", ['errors' => $errors, 'email' => $userEmail]);
     }
 
@@ -145,24 +133,9 @@ class UserController extends Controller
     */
     protected function logOut()
     {
-        //Supprime les données de session du serveur
+        // To delete session data
         session_destroy();
-        //Supprime les données du tableau $_SESSION
         unset($_SESSION);
-        // On envoie l'utilisateur vers la page de connexion
         header('location: index.php?controller=user&action=logIn');
-    }
-
-
-
-    // Fonction pour hasher le mot de passe
-    public function passwordHasher(User $user)
-    {
-        if (!empty($_POST['password'])) {
-            $passwordHashed = password_hash($user->getPassword(), PASSWORD_DEFAULT);
-            return $user->setPassword($passwordHashed);
-        } else {
-            return false;
-        }
     }
 }

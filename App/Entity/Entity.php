@@ -13,7 +13,8 @@ class Entity
         $entity->hydrate($data);
         return $entity;
     }
-
+    
+    // Function to hydrate the object with the data 
     public function hydrate(array $data)
     {
         if (count($data) > 0) {
