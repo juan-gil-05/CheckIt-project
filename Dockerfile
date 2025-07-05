@@ -13,3 +13,5 @@ COPY --from=composer:2.8.9 /usr/bin/composer /usr/bin/composer
 
 # To set the server apache config
 COPY apache-site.conf /etc/apache2/sites-available/000-default.conf
+
+COPY Public/.htaccess /var/www/html/Public
