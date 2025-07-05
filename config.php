@@ -23,7 +23,7 @@ return [
     'MONGO_INITDB_ROOT_USERNAME' => getenv('MONGO_INITDB_ROOT_USERNAME'),
     'MONGO_INITDB_ROOT_PASSWORD' => getenv('MONGO_INITDB_ROOT_PASSWORD'),
     'MONGO_PORT' => getenv('MONGO_PORT'),
-    'MYSQL_HOST' => getenv('MONGO_HOST'),
+    'MONGO_HOST' => getenv('MONGO_HOST'),
     // Encrypter Key
     'ENCRYPTER_KEY' => getenv('ENCRYPTER_KEY')
 ];
